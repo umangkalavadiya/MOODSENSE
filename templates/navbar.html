@@ -1,0 +1,34 @@
+{% load static %}
+<header class="header">
+    <div class="container ">
+      <a href="{%url 'home' %}" class="header__logo">
+        <span style="font-family: 'Tangerine', serif;
+          font-size: 18px;color: white;">MOODSENSE</span>
+      </a>
+      <nav class="header__nav">
+        <input type="checkbox" id="responsive-menu" />
+        <label for="responsive-menu" class="toggle-menu">
+          <span>Menu</span>
+          <div class="toggle-menu__lines"></div>
+        </label>
+        <ul class="header__menu">
+          <li class="header__menuItem"><a href="{% url 'home'%}"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+          
+         
+          {% if request.user.is_authenticated %}
+       
+            {% if request.user.profile.role == 'Mental Health Specialist'%}
+            <li class="header__menuItem"><a href="#">mentallogin</a></li>
+            {% else %}
+           <h1>hello user</h1>
+            {% endif %}
+           
+          <li class="header__menuItem"><a href="{% url 'account'%}"><i class="fa fa-user-circle" aria-hidden="true"></i> Account</a></li>
+          <li class="header__menuItem"><a href="{% url 'logout'%}" class="btn btn--sub"><i class="fas fa-sign-out-alt"></i> Logout </a></li>
+          {% else %}
+          <li class="header__menuItem"><a href="{% url 'login'%}" class="btn btn--sub"><i class="fas fa-sign-in-alt"></i> Login/Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
