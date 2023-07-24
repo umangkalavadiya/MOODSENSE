@@ -20,7 +20,7 @@
             {% if request.user.profile.role == 'User'%}
             <li class="header__menuItem"><a href="#">Faculty</a></li>
            {% elif request.user.profile.role == 'Admin' %}
-            <li class="header__menuItem"><a href="#">Admin</a></li> {% endcomment %}
+            <li class="header__menuItem"><a href="#">Admin</a></li> 
             {% else %}
             <li class="header__menuItem"><a href="#">Feedbackofficer</a></li>
             {% endif %}
