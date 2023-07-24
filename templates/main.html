@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 {% load static %}
-{% load pwa %}
-{% progressive_web_app_meta %}
+{% comment %} {% progressive_web_app_meta %} {% endcomment %}
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-	<link rel="stylesheet" href="{% static 'styles/footer.css'%}">
+	{% comment %} <link rel="stylesheet" href="{% static 'styles/footer.css'%}"> {% endcomment %}
   <!-- Favicon -->
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   <!-- Icon - IconMonster -->
@@ -29,7 +28,7 @@
 
   {% endblock %}
 
-  <title>PEACE@EASE</title>
+  <title>MOODSENSE</title>
 </head>
 <body>
     {% include 'navbar.html'%}

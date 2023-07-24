@@ -32,18 +32,3 @@ def paginate(request, profiles, results):
 
     return custom_range, profiles
 
-
-def searchProfiles(request):
-    search_query = ''
-
-    if request.GET.get('search_query'):
-        search_query = request.GET.get('search_query')
-    
-    profiles = Profile.objects.filter(role = 'Mental Health Specialist')
-
-    profiles = profiles.filter(
-        Q(name__icontains=search_query) |
-        Q(short_intro__icontains=search_query)
-    )
-
-    return profiles, search_query

@@ -5,8 +5,9 @@ import uuid
 
 class Profile(models.Model):
     choices = (
-        ('Mental Health Specialist','Mental Health Specialist'),
-        ('User','User')
+('Admin','Admin'),
+        ('User','Faculty'),
+        ('Feedbackofficer','Feedbackofficer')
     )
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=200,blank=True,null=True)

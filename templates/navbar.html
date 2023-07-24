@@ -17,10 +17,12 @@
          
           {% if request.user.is_authenticated %}
        
-            {% if request.user.profile.role == 'Mental Health Specialist'%}
-            <li class="header__menuItem"><a href="#">mentallogin</a></li>
+            {% if request.user.profile.role == 'User'%}
+            <li class="header__menuItem"><a href="#">Faculty</a></li>
+           {% elif request.user.profile.role == 'Admin' %}
+            <li class="header__menuItem"><a href="#">Admin</a></li> {% endcomment %}
             {% else %}
-           <h1>hello user</h1>
+            <li class="header__menuItem"><a href="#">Feedbackofficer</a></li>
             {% endif %}
            
           <li class="header__menuItem"><a href="{% url 'account'%}"><i class="fa fa-user-circle" aria-hidden="true"></i> Account</a></li>

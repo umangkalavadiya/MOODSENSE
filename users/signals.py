@@ -26,5 +26,3 @@ def deleteUser(sender, instance, **kwargs):
     except:
         pass
 
-post_save.connect(updateUser, sender=Profile)
-post_delete.connect(deleteUser, sender=Profile)
