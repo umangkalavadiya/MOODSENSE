@@ -8,9 +8,9 @@
 <div class="auth">
     <div class="register_card card ">
         <div class="auth__header text-center">
-            <a href="/">
+            {% comment %} <a href="/">
                 <img src="{% static 'images/icon.svg' %}" alt="icon" />
-            </a>
+            </a> {% endcomment %}
             <h3>Register an Account</h3>
             <p>Create a new account</p>
         </div>
@@ -24,6 +24,7 @@
                 </label>
                 {{field}}
 
+
                 {% for error in field.errors %}
                     <p style="color: red;">{{error}}</p>
                 {% endfor %}
@@ -36,10 +37,6 @@
             <div class="form__field">
                 <label for="formInput#text">{{field.label}}</label>
                 {{field}}
-
-                <!-- {% if field.help_text %}
-                <small>{{field.help_text}}</small>
-                {% endif %} -->
 
                 {% for error in field.errors %}
                     <p style="color: red;">{{error}}</p>
@@ -69,9 +66,9 @@
     <div class="card">
 
         <div class="auth__header text-center">
-            <a href="/">
+            {% comment %} <a href="/">
                 <img src="{% static 'images/icon.svg' %}" alt="icon" />
-            </a>
+            </a> {% endcomment %}
             <h3>Account Login</h3>
             <p>Hello Developer, Welcome Back!</p>
         </div>

@@ -121,3 +121,11 @@ def editAccount(request):
     context={'form':form}
     return render(request,'users/profile_form.html',context)
 
+@login_required(login_url='login')
+def timetable(request):
+    return render(request,'timetable.html')
+
+@login_required(login_url='login')
+def recording(request):
+    return render(request,'recording.html')
+

@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeTable</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'styles/timetable.css' %}">
+</head>
+<body>
+
+
+    <!--  -->
+    <table class="container">
+        <thead>
+            <tr>
+                <th><h1>Days</h1></th>
+                <th><h1>9:45 - 10:45</h1></th>
+                <th><h1>10:45 - 11:45</h1></th>
+                <th ><h1>11:45 - 12:45</h1></th>
+                <th><h1>12:45 - 2:30</h1></th>
+                <th><h1>2:30 - 2:45</h1></th>
+                <th><h1>2:45 - 3:45</h1></th>
+                <th><h1>3:45 - 4:45</h1></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Monday</td>
+                <td><a href="{% url 'recording' %}">Big Data(6B15)</a></td>
+                <td></td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">Lab(13):<br> mining(6B12)</a></td>
+                <td></td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">Big Data(6B12)</a></td>
+            </tr>
+            <tr>
+                <td>Tuesday</td>
+                <td><a href="{% url 'recording' %}">Data Mining(6B15)</a></td>
+                <td></td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">LAB(12):<br>Big Data(6B12)</a></td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">Big Data(6B16)</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 15px;">Wednesday</td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">Data Visualization(7B12)</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">Data Exploration(7B14)</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Thursday</td>
+                <td><a href="{% url 'recording' %}">Data Exploration(7B11)</a></td>
+                <td><a href="{% url 'recording' %}">Data Visualization(7B11)</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Friday</td>
+                <td><a href="{% url 'recording' %}">Big Data(6B12)</a></td>
+                <td></td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">Lab(13):<br> mining(6B15)</a></td>
+                <td></td>
+                <td></td>
+                <td><a href="{% url 'recording' %}">Big Data(6B15)</a></td>
+            </tr>
+         
+        </tbody>
+    </table>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>

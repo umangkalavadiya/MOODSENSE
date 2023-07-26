@@ -18,7 +18,7 @@
           {% if request.user.is_authenticated %}
        
             {% if request.user.profile.role == 'User'%}
-            <li class="header__menuItem"><a href="#">Faculty</a></li>
+            <li class="header__menuItem"><a href="{% url 'timetable' %}">TimeTable</a></li>
            {% elif request.user.profile.role == 'Admin' %}
             <li class="header__menuItem"><a href="#">Admin</a></li> 
             {% else %}
