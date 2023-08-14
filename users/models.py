@@ -31,5 +31,23 @@ class Profile(models.Model):
         return str(self.username)
 
 
+class Emotion(models.Model):
+    EMOTION_CHOICES = (
+        ('happy', 'Happy'),
+        ('sad', 'Sad'),
+        ('angry', 'Angry'),
+        ('surprised', 'Surprised'),
+        ('disgusted', 'Disgusted'),
+        ('fearful', 'Fearful'),
+        ('neutral', 'Neutral'),
+        # Add more emotion choices as needed
+    )
+
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    emotion = models.CharField(max_length=20, choices=EMOTION_CHOICES)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.profile.username} - {self.emotion} - {self.timestamp}"
 
   

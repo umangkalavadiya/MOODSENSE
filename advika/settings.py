@@ -166,13 +166,13 @@ EMAIL_HOST_PASSWORD = 'ohedxnpzabpwhuti' #Enter your app password
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
+MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 # Default primary key field type

@@ -1,0 +1,35 @@
+<!-- dashboard.html -->
+{% comment %} {% load users.templatetags.custom_tags %} {% endcomment %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Dashboard</title>
+</head>
+<body>
+    <h1>Faculty Dashboard</h1>
+
+    <table>
+        <tr>
+            <th>Lecture</th>
+            <th>Emotion Counts</th>
+            <th>Most Frequent Emotion</th>
+        </tr>
+        {% for profile_username, counts in emotion_counts.items %}
+        <tr>
+            <td>{{ profile_username }}</td>
+            <td>
+                <ul>
+                    {% for emotion, count in counts.items %}
+                    <li>{{ emotion }}: {{ count }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            {% comment %} <td>{{ lecture_emotions|get_item:profile_username }}</td> {% endcomment %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
