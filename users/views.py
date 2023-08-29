@@ -12,7 +12,7 @@ import os
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import Group
-from .models import Emotion, Profile
+from .models import *
 import cv2
 #
 
@@ -155,6 +155,9 @@ import numpy as np
 import cv2
 from keras.models import load_model
 from django.shortcuts import render
+from collections import Counter
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Max
 
 def emotion_analysis(request):
     recognition_model = load_model('users/p2.h5')
@@ -164,12 +167,18 @@ def emotion_analysis(request):
     cap = cv2.VideoCapture(video_path)
     
     recognized_expressions = []
-
+    
+   # Create a dictionary to store the emotion percentages for each lecture
+    all_lectures = []
+    
+  
+    emotion_count = Counter()
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break
-
+    
+    
         bounding_box = cv2.CascadeClassifier('users/haarcascades/haarcascade_frontalface_default.xml')
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         num_faces = bounding_box.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
@@ -181,17 +190,62 @@ def emotion_analysis(request):
             facial_prediction = recognition_model.predict(cropped_img)
             maxindex = int(np.argmax(facial_prediction))
             expression = facial_dict[maxindex]
-            cv2.putText(frame.copy(), expression, (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
+            # cv2.putText(frame.copy(), expression, (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
             
             print("Recognized expression:", expression)
             recognized_expressions.append(expression)
             
+            # Increment the count for this emotion
+            emotion_count[expression] += 1
+            
+        
+                
+        # Calculate the total number of recognized emotions
+        total_recognized = sum(emotion_count.values())
+        
+        # Calculate the percentage for each emotion
+        emotion_percentages = {emotion: count / total_recognized * 100 for emotion, count in emotion_count.items()}
+        
+       
+       # Fetch the latest lecture ID from the database
+        latest_lecture = Lecture.objects.order_by('-lecture_id').first()
 
+        # Calculate the next lecture ID
+        if latest_lecture:
+            next_lecture_id = latest_lecture.lecture_id + 1
+        else:
+            next_lecture_id = 1  # If there are no lectures, start with 1
+
+        # Fetch the lecture instance you're working with (replace lecture_id with actual ID)
+        lecture = Lecture.objects.create(lecture_id=next_lecture_id)
+        all_lectures.append({
+            'lecture_id': lecture.lecture_id,
+            'emotion_percentages': emotion_percentages
+        })
     cap.release()
-
+    
+    
+    
+    # Create Emotion instance and associate with the lecture
+    emotion_instance = Emotion.objects.create(
+        profile=request.user.profile,
+        emotion=emotion_percentages
+    )
+    emotion_instance.save()
+    
+    
     context = {
-
-        'recognized_expressions': recognized_expressions,
+        'all_lectures': all_lectures,
     }
-
+    
+    
     return render(request, 'emotion_analysis.html', context)
+
+
+from django.shortcuts import render
+
+
+def all_emotions(request):
+    
+    emotions = Emotion.objects.values_list('emotion', flat=True)
+    return render(request, 'all_emotions.html', {'emotions': emotions})

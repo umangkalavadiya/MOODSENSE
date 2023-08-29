@@ -1,14 +1,19 @@
-<!-- emotion_analysis.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Emotion Analysis</title>
 </head>
 <body>
-    <h1>Emotion Analysis</h1>
+    <h1>Emotion Analysis Results for Lectures</h1>
     
-    {% for expression in recognized_expressions %}
-        <p>Recognized Expression: {{ expression }}</p>
+    {% for lecture in all_lectures %}
+    <h2>Lecture {{ lecture.lecture_id }}</h2>
+    <ul>
+        {% for emotion, percentage in lecture.emotion_percentages.items %}
+            <li>{{ emotion }}: {{ percentage }}%</li>
+        {% endfor %}
+    </ul>
     {% endfor %}
+    
 </body>
 </html>

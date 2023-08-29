@@ -29,6 +29,15 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.username)
+    
+class Lecture(models.Model):
+    lecture_id = models.IntegerField(primary_key=True)  # Auto-incrementing identifier
+    # Fields to store emotions and percentages
+    emotions = models.JSONField(default=dict)  # Store emotions as a JSON object
+    percentages = models.JSONField(default=dict)  # Store percentages as a JSON object
+
+    def __str__(self):
+        return self.lecture_id,self.emotions,self.percentages
 
 
 class Emotion(models.Model):
@@ -43,6 +52,7 @@ class Emotion(models.Model):
         # Add more emotion choices as needed
     )
 
+   
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     emotion = models.CharField(max_length=20, choices=EMOTION_CHOICES)
     timestamp = models.DateTimeField(auto_now_add=True)
