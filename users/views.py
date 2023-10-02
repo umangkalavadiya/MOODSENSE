@@ -14,8 +14,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import Group
 from .models import *
 import cv2
-#
-
 # Create your views here.
 
 def home(request):
@@ -233,19 +231,13 @@ def emotion_analysis(request):
     )
     emotion_instance.save()
     
+    emotions = Emotion.objects.values_list('emotion', flat=True)
+    preprocessed_emotions = [emotion[1:-1].replace(',', '\n') for emotion in emotions]
     
     context = {
-        'all_lectures': all_lectures,
+        'preprocessed_emotions': preprocessed_emotions
     }
     
     
-    return render(request, 'emotion_analysis.html', context)
-
-
-from django.shortcuts import render
-
-
-def all_emotions(request):
     
-    emotions = Emotion.objects.values_list('emotion', flat=True)
-    return render(request, 'all_emotions.html', {'emotions': emotions})
+    return render(request, 'emotion_analysis.html', context)

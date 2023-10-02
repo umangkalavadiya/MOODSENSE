@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Emotion Analysis</title>
+    <meta charset="UTF-8">
+    <title>Emotion List</title>
 </head>
 <body>
-    <h1>Emotion Analysis Results for Lectures</h1>
-    
-    {% for lecture in all_lectures %}
-    <h2>Lecture {{ lecture.lecture_id }}</h2>
+    <h1>Emotion List</h1>
     <ul>
-        {% for emotion, percentage in lecture.emotion_percentages.items %}
-            <li>{{ emotion }}: {{ percentage }}%</li>
+        {% for emotion in preprocessed_emotions %}
+            <li>
+                Lecture {{ forloop.counter }}:
+                <ul>
+                   {{emotion}}
+                </ul>
+            </li>
         {% endfor %}
     </ul>
-    {% endfor %}
-    
 </body>
 </html>
