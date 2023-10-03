@@ -5,7 +5,6 @@ import uuid
 
 class Profile(models.Model):
     choices = (
-('Admin','Admin'),
         ('User','Faculty'),
         ('Feedbackofficer','Feedbackofficer')
     )
