@@ -212,9 +212,8 @@ def emotion_analysis(request):
         if latest_lecture:
             next_lecture_id = latest_lecture.lecture_id + 1
         else:
-            next_lecture_id = 1  # If there are no lectures, start with 1
-
-        # Fetch the lecture instance you're working with (replace lecture_id with actual ID)
+            next_lecture_id = 1  
+        
         lecture = Lecture.objects.create(lecture_id=next_lecture_id)
         all_lectures.append({
             'lecture_id': lecture.lecture_id,
@@ -230,14 +229,25 @@ def emotion_analysis(request):
         emotion=emotion_percentages
     )
     emotion_instance.save()
-    
-    emotions = Emotion.objects.values_list('emotion', flat=True)
-    preprocessed_emotions = [emotion[1:-1].replace(',', '\n') for emotion in emotions]
-    
+    selected_option = request.GET.get('selected_option', 'week')  
+
+    if selected_option == 'week':
+        emotions = Emotion.objects.order_by('-id')[:7]
+    elif selected_option == 'month':
+        emotions = Emotion.objects.order_by('-id')[:30]
+    elif selected_option == 'year':
+        emotions = Emotion.objects.order_by('-id')[:365]
+    else:
+        # Handle other options or defaults here
+        emotions = []
+
+    preprocessed_emotions = [emotion.emotion[1:-1].replace(',', '\n') for emotion in emotions]
+
     context = {
-        'preprocessed_emotions': preprocessed_emotions
+        'preprocessed_emotions': preprocessed_emotions,
+        'selected_option': selected_option,
     }
-    
+
     
     
     return render(request, 'emotion_analysis.html', context)

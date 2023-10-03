@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,4 +17,38 @@
         {% endfor %}
     </ul>
 </body>
+</html> {% endcomment %}
+
+<!-- emotion_analysis.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emotion Analysis</title>
+</head>
+<body>
+    <h1>Emotion Analysis</h1>
+    
+    <form method="get" action="{% url 'emotion_analysis' %}">
+        <label for="selected_option">Select an option:</label>
+        <select name="selected_option" id="selected_option">
+            <option value="week" {% if selected_option == "week" %}selected{% endif %}>Week</option>
+            <option value="month" {% if selected_option == "month" %}selected{% endif %}>Month</option>
+            <option value="year" {% if selected_option == "year" %}selected{% endif %}>Year</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Emotion Data:</h2>
+    <ul>
+        {% for emotion_data in preprocessed_emotions %}
+        <li>
+            Lecture {{ forloop.counter }}:
+            <ul>{{ emotion_data }}</ul>
+        </li>
+            
+        {% endfor %}
+    </ul>
+</body>
 </html>
+
