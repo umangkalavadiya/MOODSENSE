@@ -229,12 +229,14 @@ def emotion_analysis(request):
         emotion=emotion_percentages
     )
     emotion_instance.save()
-    selected_option = request.GET.get('selected_option', 'week')  
+    selected_option = request.GET.get('selected_option','one')  
 
     if selected_option == 'week':
         emotions = Emotion.objects.order_by('-id')[:7]
     elif selected_option == 'month':
         emotions = Emotion.objects.order_by('-id')[:30]
+    elif selected_option == 'one':
+        emotions = Emotion.objects.order_by('-id')[:1]
     elif selected_option == 'year':
         emotions = Emotion.objects.order_by('-id')[:365]
     else:
