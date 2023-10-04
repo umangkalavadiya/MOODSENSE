@@ -21,7 +21,7 @@
             <li class="header__menuItem"><a href="{% url 'timetable' %}">TimeTable</a></li>
     
             {% else %}
-            <li class="header__menuItem"><a href="#">Feedbackofficer</a></li>
+            <li class="header__menuItem"><a href="{% url 'feed_dashboard' %}">Feedbackofficer</a></li>
             {% endif %}
            
           <li class="header__menuItem"><a href="{% url 'account'%}"><i class="fa fa-user-circle" aria-hidden="true"></i> Account</a></li>

@@ -253,3 +253,9 @@ def emotion_analysis(request):
     
     
     return render(request, 'emotion_analysis.html', context)
+
+
+
+@login_required(login_url='login')
+def feed_dashboard(request):
+    return render(request, 'feed_dashboard.html')
