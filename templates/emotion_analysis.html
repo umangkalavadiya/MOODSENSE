@@ -4,9 +4,12 @@
 <head>
     <title>Emotion Analysis</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles/emotiona.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+    <a href="{% url 'logout'%}" class="btn "><i class="fas fa-sign-out-alt"></i> Logout </a>
     <h1>Emotion Analysis</h1>
+
     <div class="container">
     <form method="get" action="{% url 'emotion_analysis' %}">
         <label for="selected_option">Select an option:</label>

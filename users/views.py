@@ -157,6 +157,7 @@ from collections import Counter
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Max
 
+@login_required(login_url='login')
 def emotion_analysis(request):
     if request.session.get('data_processed'):
         messages.info(request, 'Data has already been processed.')
@@ -234,12 +235,14 @@ def emotion_analysis(request):
         emotion_instance.save()
         request.session['data_processed'] = True
         
-    selected_option = request.GET.get('selected_option', 'week')  
+    selected_option = request.GET.get('selected_option', 'one')  
 
     if selected_option == 'week':
         emotions = Emotion.objects.order_by('-id')[:7]
     elif selected_option == 'month':
         emotions = Emotion.objects.order_by('-id')[:30]
+    elif selected_option == 'one':
+        emotions = Emotion.objects.order_by('-id')[:1]
     elif selected_option == 'year':
         emotions = Emotion.objects.order_by('-id')[:365]
     else:
@@ -257,7 +260,3 @@ def emotion_analysis(request):
     
     return render(request, 'emotion_analysis.html', context)
 
-
-@login_required(login_url='login')
-def feed_dashboard(request):
-    return render(request, 'feed_dashboard.html')
