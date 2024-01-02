@@ -12,10 +12,7 @@ urlpatterns = [
     path('timetable/',views.timetable,name='timetable'),
     path('recording/',views.recording,name='recording'),
     path("emotion_analysis/", views.emotion_analysis, name="emotion_analysis"),
-    path('all_emotions/', views.all_emotions, name='all_emotions'),
-    # path('dashboard/', views.dashboard, name='dashboard'),
-    # path('get_emotion_data/<int:lecture_id>/', views.get_emotion_data, name='get_emotion_data'),
-    
+
 ]
 
 

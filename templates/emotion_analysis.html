@@ -1,19 +1,40 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Emotion Analysis</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/emotiona.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <h1>Emotion Analysis Results for Lectures</h1>
-    
-    {% for lecture in all_lectures %}
-    <h2>Lecture {{ lecture.lecture_id }}</h2>
+    <a href="{% url 'logout'%}" class="btn "><i class="fas fa-sign-out-alt"></i> Logout </a>
+    <h1>Emotion Analysis</h1>
+
+    <div class="container">
+    <form method="get" action="{% url 'emotion_analysis' %}">
+        <label for="selected_option">Select an option:</label>
+        <select name="selected_option" id="selected_option">
+            <option value="one" {% if selected_option == "one" %}selected{% endif %}>One</option>
+            <option value="week" {% if selected_option == "week" %}selected{% endif %}>Week</option>
+            <option value="month" {% if selected_option == "month" %}selected{% endif %}>Month</option>
+            <option value="year" {% if selected_option == "year" %}selected{% endif %}>Year</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+    <h2>Emotion Data:</h2>
+    <div class="contain">
     <ul>
-        {% for emotion, percentage in lecture.emotion_percentages.items %}
-            <li>{{ emotion }}: {{ percentage }}%</li>
+        {% for emotion_data in preprocessed_emotions %}
+        <li>
+            Lecture {{ forloop.counter }}:
+            <ul>{{ emotion_data }}</ul>
+        </li>
+            
         {% endfor %}
     </ul>
-    {% endfor %}
-    
+</div>
 </body>
 </html>
+

@@ -2,8 +2,8 @@
 <header class="header">
     <div class="container ">
       <a href="{%url 'home' %}" class="header__logo">
-        <span style="font-family: 'Tangerine', serif;
-          font-size: 18px;color: white;">MOODSENSE</span>
+        <span style=
+          font-size: 18px;color: white;>MOODSENSE</span>
       </a>
       <nav class="header__nav">
         <input type="checkbox" id="responsive-menu" />
@@ -19,10 +19,7 @@
        
             {% if request.user.profile.role == 'User'%}
             <li class="header__menuItem"><a href="{% url 'timetable' %}">TimeTable</a></li>
-           {% elif request.user.profile.role == 'Admin' %}
-            <li class="header__menuItem"><a href="#">Admin</a></li> 
-            {% else %}
-            <li class="header__menuItem"><a href="#">Feedbackofficer</a></li>
+    
             {% endif %}
            
           <li class="header__menuItem"><a href="{% url 'account'%}"><i class="fa fa-user-circle" aria-hidden="true"></i> Account</a></li>

@@ -8,9 +8,7 @@
 <div class="auth">
     <div class="register_card card ">
         <div class="auth__header text-center">
-            {% comment %} <a href="/">
-                <img src="{% static 'images/icon.svg' %}" alt="icon" />
-            </a> {% endcomment %}
+           
             <h3>Register an Account</h3>
             <p>Create a new account</p>
         </div>
@@ -52,7 +50,7 @@
         </form>
         <div class="auth__alternative">
             <p>Already have an Account?</p>
-            <a href="{% url 'login' %}">Log In</a>
+            <a href="{% url 'login' %}">Login</a>
         </div>
     </div>
 </div>
@@ -99,7 +97,7 @@
 
         <div class="auth__alternative">
             <p>Don’t have an Account?</p>
-            <a href="{% url 'register' %}">Sign Up</a>
+            <a href="{% url 'register' %}">Register</a>
         </div>
     </div>
 </div>

@@ -1,35 +1,21 @@
-@charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
-
-body {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
-  line-height: 1.42em;
-  color: whitesmoke; /* Change the contrasting color to complement the background */
-  background: linear-gradient(90deg, #f9fafa, #394747);
+.tie{
+  margin-top:3% ;
 }
-
 h1 {
   font-size: 3em;
   font-weight: 300;
   line-height: 1em;
   text-align: center;
-  color: #4DC3FA;
+  color: #000;
 }
 
-.blue {
-  color: #185875;
-}
 
-.yellow {
-  color: #FFF842;
-}
 
 .container th h1 {
   font-weight: bold;
   font-size: 1em;
   text-align: left;
-  color: #185875;
+  color: #f4f8fa;
 }
 
 .container td {
@@ -44,9 +30,9 @@ h1 {
   text-align: left;
   overflow: hidden;
   width: 80%;
-  margin: 0 auto;
+  margin: 0 0;
   display: table;
-  padding: 0 0 8em 0;
+  padding: 0 0 0 0;
 }
 
 .container td,
@@ -58,7 +44,7 @@ h1 {
 
 /* Background-color of the odd rows */
 .container tr:nth-child(odd) {
-  background-color: #323C50;
+  background-color: #2C3446;
 }
 
 /* Background-color of the even rows */
@@ -67,12 +53,12 @@ h1 {
 }
 
 .container th {
-  background-color: #9de782;
+  background-color: #041829;
 }
 
 .container td:first-child {
-  color: #000000;
-  background-color: #9de782;
+  color: #fff;
+  background-color: #041829;
 }
 
 .container tr:hover {
@@ -83,7 +69,7 @@ h1 {
 }
 
 .container td:hover {
-  background-color: #f8f8f4;
+  
   color: #403E10;
   font-weight: bold;
   text-decoration: none; /* Remove underline */
@@ -96,7 +82,7 @@ h1 {
 }
 
 .container td a {
-  color: inherit; /* Inherit color from parent */
+  color: #fff; /* Inherit color from parent */
   text-decoration: none; /* Remove underline */
 }
 

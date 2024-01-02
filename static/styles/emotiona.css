@@ -1,0 +1,100 @@
+
+h1,h2 {
+    text-align: center; 
+    margin-top: 50px; 
+    
+    color: #333; 
+}
+
+.btn {
+     
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid black; /* Set the black border */
+    border-radius: 10px; /* Rounded border */
+    color: black; /* Text color */
+    text-decoration: none;
+    
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background-color: black; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    
+}
+#selected_option,.select-menu {
+    width: 200px; 
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+
+#selected_option option {
+    padding: 10px;
+}
+
+
+input[type="submit"],.submit-button {
+    /* margin-top: 10px; */
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; 
+}
+
+.contain {
+    display: flex;
+    justify-content: center; 
+    margin: 0 auto; 
+    width: 70%; 
+}
+
+ul {
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+
+ul li {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px 50px;
+    
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+
+
+
+
+ul li ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+ul li ul li {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}

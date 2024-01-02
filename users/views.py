@@ -14,8 +14,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import Group
 from .models import *
 import cv2
-#
-
 # Create your views here.
 
 def home(request):
@@ -159,93 +157,106 @@ from collections import Counter
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Max
 
+@login_required(login_url='login')
 def emotion_analysis(request):
-    recognition_model = load_model('users/p2.h5')
-    facial_dict = {0: 'fear', 1: 'happy', 2: 'neutral', 3: 'sad', 4: 'surprise'}
+    if request.session.get('data_processed'):
+        messages.info(request, 'Data has already been processed.')
+    else:
+        recognition_model = load_model('users/p2.h5')
+        facial_dict = {0: 'fear', 1: 'happy', 2: 'neutral', 3: 'sad', 4: 'surprise'}
 
-    video_path = "media/recording/recording.mp4"
-    cap = cv2.VideoCapture(video_path)
-    
-    recognized_expressions = []
-    
-   # Create a dictionary to store the emotion percentages for each lecture
-    all_lectures = []
-    
-  
-    emotion_count = Counter()
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-    
-    
-        bounding_box = cv2.CascadeClassifier('users/haarcascades/haarcascade_frontalface_default.xml')
-        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        num_faces = bounding_box.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
-
-        for (x, y, w, h) in num_faces:
-            roi_gray_frame = gray_frame[y:y + h, x:x + w]
-            rgb_frame = cv2.cvtColor(roi_gray_frame, cv2.COLOR_GRAY2RGB)
-            cropped_img = np.expand_dims(np.expand_dims(cv2.resize(rgb_frame, (48, 48)), 0), -1)
-            facial_prediction = recognition_model.predict(cropped_img)
-            maxindex = int(np.argmax(facial_prediction))
-            expression = facial_dict[maxindex]
-            # cv2.putText(frame.copy(), expression, (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
-            
-            print("Recognized expression:", expression)
-            recognized_expressions.append(expression)
-            
-            # Increment the count for this emotion
-            emotion_count[expression] += 1
-            
+        video_path = "media/recording/recording.mp4"
+        cap = cv2.VideoCapture(video_path)
         
+        recognized_expressions = []
+        
+    # Create a dictionary to store the emotion percentages for each lecture
+        all_lectures = []
+        
+    
+        emotion_count = Counter()
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+        
+        
+            bounding_box = cv2.CascadeClassifier('users/haarcascades/haarcascade_frontalface_default.xml')
+            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            num_faces = bounding_box.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5)
+
+            for (x, y, w, h) in num_faces:
+                roi_gray_frame = gray_frame[y:y + h, x:x + w]
+                rgb_frame = cv2.cvtColor(roi_gray_frame, cv2.COLOR_GRAY2RGB)
+                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(rgb_frame, (48, 48)), 0), -1)
+                facial_prediction = recognition_model.predict(cropped_img)
+                maxindex = int(np.argmax(facial_prediction))
+                expression = facial_dict[maxindex]
+                # cv2.putText(frame.copy(), expression, (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2, cv2.LINE_AA)
                 
-        # Calculate the total number of recognized emotions
-        total_recognized = sum(emotion_count.values())
+                print("Recognized expression:", expression)
+                recognized_expressions.append(expression)
+                
+                # Increment the count for this emotion
+                emotion_count[expression] += 1
+                
+            
+                    
+            # Calculate the total number of recognized emotions
+            total_recognized = sum(emotion_count.values())
+            
+            # Calculate the percentage for each emotion
+            emotion_percentages = {emotion: count / total_recognized * 100 for emotion, count in emotion_count.items()}
+            
         
-        # Calculate the percentage for each emotion
-        emotion_percentages = {emotion: count / total_recognized * 100 for emotion, count in emotion_count.items()}
+        # Fetch the latest lecture ID from the database
+            latest_lecture = Lecture.objects.order_by('-lecture_id').first()
+
+            # Calculate the next lecture ID
+            if latest_lecture:
+                next_lecture_id = latest_lecture.lecture_id + 1
+            else:
+                next_lecture_id = 1  
+            
+            lecture = Lecture.objects.create(lecture_id=next_lecture_id)
+            all_lectures.append({
+                'lecture_id': lecture.lecture_id,
+                'emotion_percentages': emotion_percentages
+            })
+        cap.release()
         
-       
-       # Fetch the latest lecture ID from the database
-        latest_lecture = Lecture.objects.order_by('-lecture_id').first()
+        
+        
+        # Create Emotion instance and associate with the lecture
+        emotion_instance = Emotion.objects.create(
+            profile=request.user.profile,
+            emotion=emotion_percentages
+        )
+        emotion_instance.save()
+        request.session['data_processed'] = True
+        
+    selected_option = request.GET.get('selected_option', 'one')  
 
-        # Calculate the next lecture ID
-        if latest_lecture:
-            next_lecture_id = latest_lecture.lecture_id + 1
-        else:
-            next_lecture_id = 1  # If there are no lectures, start with 1
+    if selected_option == 'week':
+        emotions = Emotion.objects.order_by('-id')[:7]
+    elif selected_option == 'month':
+        emotions = Emotion.objects.order_by('-id')[:30]
+    elif selected_option == 'one':
+        emotions = Emotion.objects.order_by('-id')[:1]
+    elif selected_option == 'year':
+        emotions = Emotion.objects.order_by('-id')[:365]
+    else:
+        # Handle other options or defaults here
+        emotions = []
 
-        # Fetch the lecture instance you're working with (replace lecture_id with actual ID)
-        lecture = Lecture.objects.create(lecture_id=next_lecture_id)
-        all_lectures.append({
-            'lecture_id': lecture.lecture_id,
-            'emotion_percentages': emotion_percentages
-        })
-    cap.release()
-    
-    
-    
-    # Create Emotion instance and associate with the lecture
-    emotion_instance = Emotion.objects.create(
-        profile=request.user.profile,
-        emotion=emotion_percentages
-    )
-    emotion_instance.save()
-    
-    
+    preprocessed_emotions = [emotion.emotion[1:-1].replace(',', '\n') for emotion in emotions]
+
     context = {
-        'all_lectures': all_lectures,
+        'preprocessed_emotions': preprocessed_emotions,
+        'selected_option': selected_option,
     }
+
     
     
     return render(request, 'emotion_analysis.html', context)
 
-
-from django.shortcuts import render
-
-
-def all_emotions(request):
-    
-    emotions = Emotion.objects.values_list('emotion', flat=True)
-    return render(request, 'all_emotions.html', {'emotions': emotions})
